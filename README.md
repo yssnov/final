@@ -7,7 +7,7 @@
 **Group:** SE-2405
 
 ### Team Members:
-- **Chingiz Uraimov** 
+- **Chingiz** 
 - **Sultan** 
 - **Kaisar** 
 
