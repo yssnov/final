@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - God loves the Trinity</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .auth-container {
+      max-width: 500px;
+      margin: 60px auto;
+      padding: 40px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 4px 15px var(--shadow-hover);
+    }
+    
+    .auth-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .auth-header h1 {
+      color: var(--logo-color);
+      margin-bottom: 10px;
+    }
+    
+    .auth-form .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .auth-form label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: var(--nav-color);
+    }
+    
+    .auth-form input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 1rem;
+      background: var(--bg-color);
+      color: var(--text-color);
+      transition: border-color 0.3s;
+    }
+    
+    .auth-form input:focus {
+      outline: none;
+      border-color: var(--button-bg);
+    }
+    
+    .password-strength {
+      height: 5px;
+      margin-top: 8px;
+      border-radius: 3px;
+      transition: all 0.3s;
+    }
+    
+    .password-strength.weak {
+      background: #f44336;
+      width: 33%;
+    }
+    
+    .password-strength.medium {
+      background: #ff9800;
+      width: 66%;
+    }
+    
+    .password-strength.strong {
+      background: #4caf50;
+      width: 100%;
+    }
+    
+    .auth-links {
+      text-align: center;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-color);
+    }
+    
+    .auth-links a {
+      color: var(--button-bg);
+      font-weight: bold;
+    }
+    
+    .auth-links a:hover {
+      text-decoration: underline;
+    }
+    
+    .success-message {
+      background: #4caf50;
+      color: white;
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      text-align: center;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header class="main-header">
+    <div class="logo">God loves the Trinity</div>
+    <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">☰</button>
+    <nav class="navigation">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="reserve.html">Reservations</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li><button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="auth-container">
+      <div class="auth-header">
+        <h1>Create Account</h1>
+        <p>Join our restaurant family today!</p>
+      </div>
+
+      <div id="success-msg" class="success-message"></div>
+
+      <form id="signup-form" class="auth-form">
+        <div class="form-group">
+          <label for="signup-name">Full Name <span style="color: red;">*</span></label>
+          <input type="text" id="signup-name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="signup-email">Email Address <span style="color: red;">*</span></label>
+          <input type="email" id="signup-email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="signup-password">Password <span style="color: red;">*</span></label>
+          <input type="password" id="signup-password" required>
+          <div id="password-strength" class="password-strength"></div>
+          <small style="color: var(--text-color); display: block; margin-top: 5px;">
+            Password must be at least 6 characters
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="signup-confirm">Confirm Password <span style="color: red;">*</span></label>
+          <input type="password" id="signup-confirm" required>
+        </div>
+
+        <button type="submit" class="submit-btn">Sign Up</button>
+      </form>
+
+      <div class="auth-links">
+        <p>Already have an account? <a href="login.html">Log In</a></p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 God loves the Trinity Restaurant. All rights reserved.</p>
+    <p class="datetime-display">Current time: <span id="current-datetime"></span></p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // Password strength indicator
+    $('#signup-password').on('input', function() {
+      const password = $(this).val();
+      const $strength = $('#password-strength');
+      
+      if (password.length === 0) {
+        $strength.removeClass('weak medium strong').css('width', '0');
+      } else if (password.length < 6) {
+        $strength.removeClass('medium strong').addClass('weak');
+      } else if (password.length < 10) {
+        $strength.removeClass('weak strong').addClass('medium');
+      } else {
+        $strength.removeClass('weak medium').addClass('strong');
+      }
+    });
+
+    // Sign Up Form Handler
+    $('#signup-form').on('submit', function(e) {
+      e.preventDefault();
+      
+      const name = $('#signup-name').val().trim();
+      const email = $('#signup-email').val().trim();
+      const password = $('#signup-password').val();
+      const confirm = $('#signup-confirm').val();
+      
+      // Validation
+      if (name.length < 2) {
+        alert('⚠ Name must be at least 2 characters');
+        return;
+      }
+      
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        alert('⚠ Please enter a valid email address');
+        return;
+      }
+      
+      if (password.length < 6) {
+        alert('⚠ Password must be at least 6 characters');
+        return;
+      }
+      
+      if (password !== confirm) {
+        alert('⚠ Passwords do not match');
+        return;
+      }
+      
+      // Check if user already exists
+      const users = JSON.parse(localStorage.getItem('restaurant_users') || '[]');
+      if (users.find(u => u.email === email)) {
+        alert('⚠ This email is already registered. Please login.');
+        return;
+      }
+      
+      // Create user object
+      const user = {
+        id: Date.now(),
+        name: name,
+        email: email,
+        password: password, // In production, this should be hashed!
+        createdAt: new Date().toISOString()
+      };
+      
+      // Save to localStorage
+      users.push(user);
+      localStorage.setItem('restaurant_users', JSON.stringify(users));
+      
+      // Show success message
+      $('#success-msg').text('✓ Account created successfully! Redirecting to login...').fadeIn();
+      
+      // Redirect to login after 2 seconds
+      setTimeout(() => {
+        window.location.href = 'login.html';
+      }, 2000);
+    });
+  </script>
+</body>
+</html>
