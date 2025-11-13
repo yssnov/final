@@ -7,9 +7,9 @@
 **Group:** SE-2405
 
 ### Team Members:
-- **Chingiz Uraimov** - Project Lead & Frontend Developer
-- **Sultan** - Backend Logic & API Integration
-- **Kaisar** - UI/UX Design & jQuery Implementation
+- **Chingiz Uraimov** 
+- **Sultan** 
+- **Kaisar** 
 
 ---
 
